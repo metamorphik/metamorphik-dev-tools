@@ -1,0 +1,34 @@
+{
+  "name": "@metamorphik/react-scoped-events",
+  "version": "1.0.0",
+  "description": "Scoped Event system with named, hierarchical event horizons for React",
+  "license": "MIT",
+  "author": "Metamorphik <opensource@metamorphik.tech>",
+  "keywords": ["react", "events", "context", "pubsub", "state", "bus", "queue"],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=17 || >=18",
+    "react-dom": ">=17 || >=18"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "@types/react": "^18.2.0"
+  }
+}
