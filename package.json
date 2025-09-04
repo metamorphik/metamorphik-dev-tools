@@ -38,5 +38,6 @@
   "bugs": {
     "url": "https://github.com/metamorphik/react-scoped-events/issues"
   },
-  "homepage": "https://github.com/metamorphik/react-scoped-events#readme"
+  "homepage": "https://github.com/metamorphik/react-scoped-events#readme",
+  "publishConfig": { "access": "public" }
 }
