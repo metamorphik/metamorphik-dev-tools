@@ -1,6 +1,6 @@
 {
   "name": "@metamorphik/react-scoped-events",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Scoped Event system with named, hierarchical event horizons for React",
   "license": "MIT",
   "author": "Metamorphik <opensource@metamorphik.tech>",
