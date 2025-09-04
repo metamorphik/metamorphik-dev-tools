@@ -29,3 +29,6 @@ build/
 # package-lock.json
 # yarn.lock
 # pnpm-lock.yaml
+
+test-react-scoped-events
+demo-react-scoped-events
