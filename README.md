@@ -17,7 +17,7 @@ You define **event horizons** (scopes) in your component tree, and decide whethe
 
 ---
 
-## Live Demo
+## 🎮 Live Demo
 
 Try it instantly on CodeSandbox:
 
