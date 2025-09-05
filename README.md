@@ -17,6 +17,14 @@ You define **event horizons** (scopes) in your component tree, and decide whethe
 
 ---
 
+## Live Demo
+
+Try it instantly on CodeSandbox:
+
+[![Play on CodeSandbox](https://img.shields.io/badge/Play%20on-CodeSandbox-151515?logo=codesandbox&logoColor=white)](https://codesandbox.io/s/p7v2q6)
+
+---
+
 ## 🚀 Quickstart
 
 Install:
