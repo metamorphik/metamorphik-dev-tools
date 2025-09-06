@@ -24,9 +24,9 @@ jobs:
           cache: npm
 
       - name: Install test deps
-        working-directory: tests
+        working-directory: packages/react-scoped-events/tests
         run: npm ci
 
       - name: Run tests
-        working-directory: tests
+        working-directory: packages/react-scoped-events/tests
         run: npm test

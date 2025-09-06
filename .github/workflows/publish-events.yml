@@ -1,17 +1,17 @@
-name: Publish
+name: Publish Events
 
 on:
   push:
     tags:
-      - "v*.*.*"   # e.g. v1.2.3
+      - "events-v*.*.*"   # e.g. v1.2.3
 
 jobs:
   # Reuse the test workflow
   test:
-    uses: ./.github/workflows/test.yml
+    uses: ./.github/workflows/test-events.yml
 
   publish:
-    name: Publish to npm
+    name: Publish events to npm
     needs: [test]   # ensure tests run first
     runs-on: ubuntu-latest
     steps:
@@ -26,12 +26,21 @@ jobs:
           registry-url: "https://registry.npmjs.org"
 
       - name: Install root deps
+        working-directory: packages/react-scoped-events
         run: npm ci
 
+      - name: Verify version matches tag
+        working-directory: packages/react-automata
+        run: |
+          PKG_VER=$(node -p "require('./package.json').version")
+          [ "$PKG_VER" = "${{ steps.v.outputs.version }}" ] || (echo "pkg=$PKG_VER tag=${{ steps.v.outputs.version }}" && exit 1)
+
       - name: Build package
+        working-directory: packages/react-scoped-events/tests
         run: npm run build --if-present
 
       - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        working-directory: packages/react-scoped-events/tests
         run: npm publish --access public
