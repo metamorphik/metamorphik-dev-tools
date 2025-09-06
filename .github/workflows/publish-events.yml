@@ -30,17 +30,17 @@ jobs:
         run: npm ci
 
       - name: Verify version matches tag
-        working-directory: packages/react-automata
+        working-directory: packages/react-scoped-events
         run: |
           PKG_VER=$(node -p "require('./package.json').version")
           [ "$PKG_VER" = "${{ steps.v.outputs.version }}" ] || (echo "pkg=$PKG_VER tag=${{ steps.v.outputs.version }}" && exit 1)
 
       - name: Build package
-        working-directory: packages/react-scoped-events/tests
+        working-directory: packages/react-scoped-events
         run: npm run build --if-present
 
       - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_EVENTS }}
-        working-directory: packages/react-scoped-events/tests
+        working-directory: packages/react-scoped-events
         run: npm publish --access public
