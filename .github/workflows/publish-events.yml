@@ -30,17 +30,14 @@ jobs:
         run: npm ci
 
       - name: Verify version matches tag
+        if: startsWith(github.ref_name, 'events-v')
         working-directory: packages/react-scoped-events
-        env:
-          TAG_VER: ${{ steps.v.outputs.version }}
         run: |
           set -euo pipefail
+          TAG_VER="${GITHUB_REF_NAME#events-v}"
           PKG_VER=$(node -p "require('./package.json').version" | tr -d '\r\n')
           echo "package.json: $PKG_VER   tag: $TAG_VER"
-          if [ "$PKG_VER" != "$TAG_VER" ]; then
-            echo "::error::Version mismatch (package:$PKG_VER tag:$TAG_VER)"
-            exit 1
-          fi
+          [ "$PKG_VER" = "$TAG_VER" ] || (echo "::error::Version mismatch (package:$PKG_VER tag:$TAG_VER)" && exit 1)
 
       - name: Build package
         working-directory: packages/react-scoped-events
