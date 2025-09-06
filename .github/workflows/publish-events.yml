@@ -31,9 +31,16 @@ jobs:
 
       - name: Verify version matches tag
         working-directory: packages/react-scoped-events
+        env:
+          TAG_VER: ${{ steps.v.outputs.version }}
         run: |
-          PKG_VER=$(node -p "require('./package.json').version")
-          [ "$PKG_VER" = "${{ steps.v.outputs.version }}" ] || (echo "pkg=$PKG_VER tag=${{ steps.v.outputs.version }}" && exit 1)
+          set -euo pipefail
+          PKG_VER=$(node -p "require('./package.json').version" | tr -d '\r\n')
+          echo "package.json: $PKG_VER   tag: $TAG_VER"
+          if [ "$PKG_VER" != "$TAG_VER" ]; then
+            echo "::error::Version mismatch (package:$PKG_VER tag:$TAG_VER)"
+            exit 1
+          fi
 
       - name: Build package
         working-directory: packages/react-scoped-events
