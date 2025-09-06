@@ -1,40 +1,45 @@
-# Metamorphik Dev Tools
+# 🧰 Metamorphik Dev Tools
 
-> **Stance:** Small, focused developer utilities. Clear boundaries. Predictable behavior. Minimal APIs. No surprise dependencies. Ship with tests; document just enough; iterate in public.
-
-This repo is a home for Metamorphik’s developer tooling. It is a monorepo only for convenience; each package stands on its own philosophy and versioning. The root does **not** contain app code or builds.
+> **Stance** — Small, focused utilities. Clear boundaries. Predictable behavior. Minimal APIs. No surprise deps. Ship with tests; document just enough; iterate in public.
 
 ---
 
-## What’s here (today)
+## 📦 What’s here (today)
 
 * **react-scoped-events** — scoped, hierarchical event system for React.
 
   * Folder: [https://github.com/metamorphik/metamorphik-dev-tools/tree/main/packages/react-scoped-events](https://github.com/metamorphik/metamorphik-dev-tools/tree/main/packages/react-scoped-events)
   * Readme & usage live **in the package**.
 
-(Additional packages will land here when they meet the same bar.)
+*(New packages land here only when they meet the same bar.)*
 
 ---
 
-## How we work
+## 🧭 How we work
 
-* **Quality over breadth.** Keep APIs tiny and intentional.
-* **Determinism first.** Prefer explicit scopes/state over global magic.
-* **No root build.** Work happens inside each package.
-* **Releases:** per‑package, tag‑driven (e.g., `events-vX.Y.Z`).
-* **CI:** runs per package; root is lightweight.
+* 🔹 **Quality over breadth** — keep APIs tiny and intentional.
+* 🔹 **Determinism first** — explicit scopes/state over global magic.
+* 🔹 **No root build** — work happens inside each package.
+* 🔹 **CI** — runs per package; root stays lightweight.
 
 ---
 
-## Contributing
+## 🚀 Releases
+
+* Per‑package, **tag‑driven**.
+
+  * Events: `events-vX.Y.Z`
+
+---
+
+## 🤝 Contributing
 
 Open an issue or PR. Keep changes scoped to a single package. Add tests alongside code.
 
-Issues: [https://github.com/metamorphik/metamorphik-dev-tools/issues](https://github.com/metamorphik/metamorphik-dev-tools/issues)
+* Issues: [https://github.com/metamorphik/metamorphik-dev-tools/issues](https://github.com/metamorphik/metamorphik-dev-tools/issues)
 
 ---
 
-## License
+## 🪪 License
 
 MIT © Metamorphik
