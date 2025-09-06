@@ -21,7 +21,7 @@ You define **event horizons** (scopes) in your component tree, and decide whethe
 
 Try it instantly on CodeSandbox:
 
-[![Play on CodeSandbox](https://img.shields.io/badge/Play%20on-CodeSandbox-151515?logo=codesandbox&logoColor=white)](https://codesandbox.io/p/sandbox/github/metamorphik/metamorphik-dev-tools/packages/react-scoped-events/tree/main/examples/org)
+[![Play on CodeSandbox](https://img.shields.io/badge/Play%20on-CodeSandbox-151515?logo=codesandbox&logoColor=white)](https://codesandbox.io/p/sandbox/github/metamorphik/metamorphik-dev-tools/tree/main/packages/react-scoped-events/examples/org)
 
 ---
 

@@ -33,11 +33,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/metamorphik/metamorphik-dev-tools/packages/react-scoped-events.git"
+    "url": "git+https://github.com/metamorphik/metamorphik-dev-tools.git",
+    "directory": "packages/react-scoped-events"
   },
   "bugs": {
-    "url": "https://github.com/metamorphik/metamorphik-dev-tools/packages/react-scoped-events/issues"
+    "url": "https://github.com/metamorphik/metamorphik-dev-tools/issues"
   },
-  "homepage": "https://github.com/metamorphik/metamorphik-dev-tools/packages/react-scoped-events#readme",
+  "homepage": "https://github.com/metamorphik/metamorphik-dev-tools/tree/main/packages/react-scoped-events#readme",
   "publishConfig": { "access": "public" }
 }
