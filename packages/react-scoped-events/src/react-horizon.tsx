@@ -41,7 +41,7 @@ export function EventHorizonProvider({
   log,
   name,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   instance?: EH;
   log?: boolean;
   name?: string;

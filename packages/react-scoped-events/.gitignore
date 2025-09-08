@@ -30,5 +30,6 @@ build/
 # yarn.lock
 # pnpm-lock.yaml
 
-test-react-scoped-events
+test-react-scoped-events-with-includes
+test-react-scoped-events-with-zip
 demo-react-scoped-events
