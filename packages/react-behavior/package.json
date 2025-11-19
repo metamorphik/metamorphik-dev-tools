@@ -1,0 +1,65 @@
+{
+  "name": "@metamorphik/react-behavior",
+  "version": "0.1.1",
+  "description": "Behavior layer for React with class-like inheritance, named effects, and override rules.",
+  "license": "MIT",
+  "author": "Metamorphik Technologies",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metamorphik/react-behavior.git"
+  },
+  "homepage": "https://github.com/metamorphik/react-behavior",
+  "bugs": {
+    "url": "https://github.com/metamorphik/react-behavior/issues"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=18.17"
+  },
+  "peerDependencies": {
+    "react": "^18 || ^19"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "rimraf": "^6.0.1",
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.3"
+  },
+  "scripts": {
+    "build": "tsup --config tsup.config.ts",
+    "clean": "rimraf dist",
+    "typecheck": "tsc -p tsconfig.build.json --noEmit",
+    "prepublishOnly": "npm run clean && npm run build && npm run typecheck"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "react",
+    "hooks",
+    "effects",
+    "inheritance",
+    "behavior",
+    "typescript"
+  ]
+}

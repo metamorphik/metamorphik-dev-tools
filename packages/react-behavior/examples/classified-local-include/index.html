@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Classified Inheritance Demo</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; padding: 16px; }
+      .container { max-width: 900px; margin: 0 auto; }
+      .section { margin: 24px 0; padding: 16px; border: 1px dashed #bbb; border-radius: 8px; }
+      .banner { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: #666; margin-bottom: 4px; }
+      .dialog { border: 1px solid #999; padding: 12px; border-radius: 8px; }
+      .dialog.fancy { border: 2px solid purple; }
+      .title { margin: 0 0 8px 0; }
+      .body { margin-top: 8px; padding: 8px; background: #fafafa; border-radius: 6px; }
+      .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+      .pill { display: inline-block; padding: 2px 8px; border-radius: 999px; background: #eee; font-size: 12px; }
+      hr { border: none; border-top: 1px solid #e5e5e5; margin: 20px 0; }
+      button { cursor: pointer; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Classified Inheritance Demo</h1>
+      <p>This demo shows <strong>Base</strong> and three derived components with explicit labels:</p>
+      <ul>
+        <li><strong>DerivedAllOverride</strong>: overrides method, effects, and view.</li>
+        <li><strong>DerivedNoView</strong>: overrides method &amp; effect, <em>omits view</em> (inherits base view).</li>
+        <li><strong>DerivedNoViewNoEffect</strong>: overrides method only, <em>omits view and effects</em> (inherits both from base).</li>
+      </ul>
+      <div id="root"></div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
