@@ -108,7 +108,7 @@ const newSection =
   `They measure wrapper overhead for 10,000 empty effects (no real work in the body):\n\n` +
   `${summary}\n\n` +
   `The raw numbers exaggerate the difference because \`useEffect\` does almost no work in this environment.\n` +
-  `In real components, effect bodies perform useful work (subscriptions, DOM I/O, analytics), and the fixed ~0.5µs per-effect overhead of \`useNamedEffect\` is diluted into that cost.\n` +
+  `In real components, effect bodies perform useful work (subscriptions, DOM I/O, analytics), and the fixed ~${perEffectUs.toFixed(1)}µs per-effect overhead of \`useNamedEffect\` is diluted into that cost.\n` +
   `${markerEnd}`;
 
 let nextReadme;
