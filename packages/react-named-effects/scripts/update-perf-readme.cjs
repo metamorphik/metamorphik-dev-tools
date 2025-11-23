@@ -58,6 +58,8 @@ const perfBlock = blockLines.join("\n");
 // named useNamedEffect: avg=7.572ms  min=4.833ms  max=21.273ms
 // overhead:            avg=5.166ms  (214.76% on average)
 let summary = "";
+let perEffectUs = null;  // <-- add this
+
 try {
   const plainLine = blockLines.find((l) => l.trim().startsWith("plain useEffect:"));
   const namedLine = blockLines.find((l) =>
@@ -77,7 +79,7 @@ try {
     const namedAvg = parseFloat(namedAvgMatch[1]);
     const overheadAvg = parseFloat(overheadAvgMatch[1]);
     const overheadPct = parseFloat(overheadPctMatch[1]);
-    const perEffectUs = (overheadAvg / 10000) * 1000; // ms -> µs
+    perEffectUs = (overheadAvg / 10000) * 1000; // ms -> µs
 
     summary =
       `- 10k plain **useEffect**: \`${plainAvg.toFixed(3)}ms\`\n` +

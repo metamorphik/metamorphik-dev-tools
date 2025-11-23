@@ -1,6 +1,6 @@
 {
   "name": "@metamorphik/react-named-effecs",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "React effects with names, stable identities, debug-logging, and built-in prev/current value comparison.",
   "license": "MIT",
   "author": "Metamorphik Technologies",
