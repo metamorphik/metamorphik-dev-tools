@@ -8,7 +8,6 @@ Define *base behaviors*, extend them, and override only what you need — all wi
 ## ✨ Features
 
 - 🧩 **Class-like inheritance** — derive new behaviors from existing ones.
-- ⚙️ **Named effects** — run, override, or skip specific effects by name.
 - 🪞 **Composable logic** — combine multiple behaviors seamlessly.
 - 🧠 **Declarative override rules** — `runsuperbefore`, `runsuperafter`, or replace entirely.
 - 🪶 **Lightweight & dependency-free** — only React as a peer dependency.

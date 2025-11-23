@@ -1,6 +1,5 @@
 import type { DependencyList } from "react";
 import type { PropsWithChildren } from "react"
-import { useNamedEffect, type EffectKind } from "./useNamedEffects"
 
 export type Cleanup = void | (() => void)
 

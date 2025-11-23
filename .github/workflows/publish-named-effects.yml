@@ -1,0 +1,64 @@
+name: Publish Named Effects
+
+on:
+  push:
+    tags:
+      - "named-v*.*.*"   # e.g. named-v0.1.0
+
+jobs:
+  test:
+    # if you later split tests per package, you can point to a dedicated workflow
+    uses: ./.github/workflows/test-events.yml
+
+  publish:
+    name: Publish @metamorphik/react-named-effects to npm
+    needs: [test]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install deps
+        run: npm install
+
+      - name: Verify tag version matches package.json
+        working-directory: packages/react-named-effects
+        run: |
+          TAG_VER="${GITHUB_REF_NAME#named-v}"
+          PKG_VER=$(node -p "require('./package.json').version" | tr -d '\r\n')
+          echo "package.json: $PKG_VER   tag: $TAG_VER"
+          [ "$PKG_VER" = "$TAG_VER" ] || (echo "::error::Version mismatch (package:$PKG_VER tag:$TAG_VER)" && exit 1)
+
+      - name: Run perf benchmarks
+        working-directory: packages/react-named-effects
+        run: npm run test:bench
+
+      - name: Run comparison perf and update README
+        working-directory: packages/react-named-effects
+        run: npm run perf:update-readme
+
+      - name: Commit README perf section
+        if: github.ref_type == 'tag'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "chore: update perf numbers for react-named-effects" || echo "No changes to commit"
+          git push origin HEAD:${GITHUB_REF_NAME%%/*} || echo "Skipping push"
+
+      - name: Build package
+        working-directory: packages/react-named-effects
+        run: npm run build --if-present
+
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_EVENTS }}
+        working-directory: packages/react-named-effects
+        run: npm publish --access public

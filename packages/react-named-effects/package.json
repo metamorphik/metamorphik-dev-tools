@@ -1,0 +1,78 @@
+{
+  "name": "@metamorphik/react-named-effecs",
+  "version": "0.0.1",
+  "description": "React effects with names, stable identities, debug-logging, and built-in prev/current value comparison.",
+  "license": "MIT",
+  "author": "Metamorphik Technologies",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metamorphik/react-named-effecs.git"
+  },
+  "homepage": "https://github.com/metamorphik/react-named-effecs",
+  "bugs": {
+    "url": "https://github.com/metamorphik/react-named-effecs/issues"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=18.17"
+  },
+  "peerDependencies": {
+    "react": "^18 || ^19"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.0.0",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^24.10.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.2",
+    "happy-dom": "^20.0.10",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "react-test-renderer": "^18.3.1",
+    "rimraf": "^6.0.1",
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.3"
+  },
+  "scripts": {
+    "build": "tsup --config tsup.config.ts",
+    "clean": "rimraf dist",
+    "typecheck": "tsc -p tsconfig.build.json --noEmit",
+    "prepublishOnly": "npm run clean && npm run build && npm run typecheck",
+    "test": "vitest run tests/unit",
+    "test:bench": "vitest bench tests/perf/*.bench.tsx",
+    "test:perf": "vitest run tests/perf/compare-10k-effects.test.tsx",
+    "test:all": "vitest run",
+    "test:watch": "vitest",
+    "test:perf:compare": "vitest run tests/perf/compare-10k-effects.test.tsx",
+    "perf:update-readme": "node scripts/update-perf-readme.cjs"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "react",
+    "hooks",
+    "effects",
+    "inheritance",
+    "named effects",
+    "typescript"
+  ]
+}

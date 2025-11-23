@@ -1,10 +1,19 @@
 import * as React from "react"
 import type { PropsWithChildren } from "react"
-import { BehaviorAPI, BehaviorContext, BehaviorInstance, EventSpec, PlatformStrapperSpecs, UseClassifiedSpec } from "./types"
-import { EffectKind, useNamedEffect } from "./useNamedEffects"
+import {
+  BehaviorAPI,
+  BehaviorContext,
+  BehaviorInstance,
+  EventSpec,
+  PlatformStrapperSpecs,
+  UseClassifiedSpec,
+} from "./types"
 
 /** Shallow merge with child shadowing parent by key */
-function mergeByKey<T extends object>(parent?: Record<string, T>, child?: Record<string, T>) {
+function mergeByKey<T extends object>(
+  parent?: Record<string, T>,
+  child?: Record<string, T>
+) {
   return { ...(parent ?? {}), ...(child ?? {}) }
 }
 
@@ -16,7 +25,8 @@ function composeEventChain<Expose, P>(
   if (!parentEvt && !childEvt) return []
   if (parentEvt && !childEvt) return [parentEvt]
   if (!parentEvt && childEvt) return [childEvt]
-  const c = childEvt!, p = parentEvt!
+  const c = childEvt!,
+    p = parentEvt!
   if (c.runSuperBefore) return [p, c]
   if (c.runSuperAfter) return [c, p]
   return [c] // default: override
@@ -40,8 +50,12 @@ export function useClassified<Expose = any, P = any>(
 
   // Freeze keys on first render to keep setter table stable
   const initialStateRef = React.useRef<Record<string, any>>(initialUnion)
-  const stateKeysRef = React.useRef<string[]>(Object.keys(initialStateRef.current))
-  const [stateObj, setStateObj] = React.useState<Record<string, any>>(initialStateRef.current)
+  const stateKeysRef = React.useRef<string[]>(
+    Object.keys(initialStateRef.current)
+  )
+  const [stateObj, setStateObj] = React.useState<Record<string, any>>(
+    initialStateRef.current
+  )
 
   // Stable per-key setters for the union
   const setters = React.useMemo(() => {
@@ -50,7 +64,8 @@ export function useClassified<Expose = any, P = any>(
       s[k] = (value) => {
         setStateObj((prev) => {
           const prevVal = prev[k]
-          const nextVal = typeof value === "function" ? (value as any)(prevVal) : value
+          const nextVal =
+            typeof value === "function" ? (value as any)(prevVal) : value
           if (Object.is(prevVal, nextVal)) return prev
           return { ...prev, [k]: nextVal }
         })
@@ -64,11 +79,18 @@ export function useClassified<Expose = any, P = any>(
   if (process.env.NODE_ENV !== "production") {
     const nowKeys = Object.keys({ ...parentStateShape, ...childDefaults })
     const frozen = stateKeysRef.current
-    if (nowKeys.length !== frozen.length || nowKeys.some((k) => !frozen.includes(k))) {
+    if (
+      nowKeys.length !== frozen.length ||
+      nowKeys.some((k) => !frozen.includes(k))
+    ) {
       // eslint-disable-next-line no-console
       console.warn(
-        `[useClassified] Spec.state keys changed for "${spec.name ?? "Behavior"}". ` +
-          `Keys must be stable across renders. Frozen=[${frozen.join(", ")}], Now=[${nowKeys.join(", ")}]`
+        `[useClassified] Spec.state keys changed for "${
+          spec.name ?? "Behavior"
+        }". ` +
+          `Keys must be stable across renders. Frozen=[${frozen.join(
+            ", "
+          )}], Now=[${nowKeys.join(", ")}]`
       )
     }
   }
@@ -76,7 +98,10 @@ export function useClassified<Expose = any, P = any>(
   // ---------- CONTEXT ----------
   const baseExpose = base?.api?.expose
   const baseView = base?.api?.view
-  const ctx: BehaviorContext = React.useMemo(() => ({ baseExpose, baseView }), [baseExpose, baseView])
+  const ctx: BehaviorContext = React.useMemo(
+    () => ({ baseExpose, baseView }),
+    [baseExpose, baseView]
+  )
 
   // ---------- LOCALS ----------
   // Shared per-instance bag; if base has one, reuse it so base+derived see the same object.
@@ -90,22 +115,26 @@ export function useClassified<Expose = any, P = any>(
   // ---------- METHODS ----------
   const mergedMethods = React.useMemo(() => {
     const parent = base?.api?.methods ?? {}
-    const childEntries = Object.entries(spec.methods ?? {}).map(([name, fn]) => {
-      // bind api lazily through ref to avoid stale closures
-      const bound = (...args: any[]) => fn(apiRef.current, ...args)
-      return [name, bound]
-    })
+    const childEntries = Object.entries(spec.methods ?? {}).map(
+      ([name, fn]) => {
+        // bind api lazily through ref to avoid stale closures
+        const bound = (...args: any[]) => fn(apiRef.current, ...args)
+        return [name, bound]
+      }
+    )
     return mergeByKey(parent, Object.fromEntries(childEntries))
   }, [base, spec.methods])
 
   // ---------- VIEW (single, child overrides parent; inherit if absent) ----------
   const effectiveView = React.useMemo(() => {
     if (spec.view) {
-      const bound = (p?: PropsWithChildren<P>) => spec.view!(apiRef.current, ctx, p)
+      const bound = (p?: PropsWithChildren<P>) =>
+        spec.view!(apiRef.current, ctx, p)
       return bound as (props?: PropsWithChildren<P>) => React.ReactNode
     }
     if (base?.api?.view) {
-      const bound = (p?: PropsWithChildren<P>) => (base.api.view as any)(apiRef.current, ctx, p)
+      const bound = (p?: PropsWithChildren<P>) =>
+        (base.api.view as any)(apiRef.current, ctx, p)
       return bound as (props?: PropsWithChildren<P>) => React.ReactNode
     }
     return undefined
@@ -125,7 +154,8 @@ export function useClassified<Expose = any, P = any>(
   apiSkeleton.view = effectiveView as any
 
   const exposeNow =
-    (spec.expose ? spec.expose(apiSkeleton, ctx) : (apiSkeleton.state as any as Expose))
+    spec.expose?.(apiSkeleton, ctx) ??
+    ((apiSkeleton.state as any) as unknown as Expose)
   apiSkeleton.expose = exposeNow
   apiRef.current = apiSkeleton
 
@@ -144,12 +174,18 @@ export function useClassified<Expose = any, P = any>(
 
   if (process.env.NODE_ENV !== "production") {
     const nowKeys = Object.keys(effectiveEvents)
-    const changed = nowKeys.length !== lockedKeys.length || nowKeys.some((k, i) => k !== lockedKeys[i])
+    const changed =
+      nowKeys.length !== lockedKeys.length ||
+      nowKeys.some((k, i) => k !== lockedKeys[i])
     if (changed) {
       // eslint-disable-next-line no-console
       console.warn(
-        `[useClassified] Event keys changed for "${spec.name ?? "Behavior"}". ` +
-          `Keys must be declared stably. Using initial keys: [${lockedKeys.join(", ")}]`
+        `[useClassified] Event keys changed for "${
+          spec.name ?? "Behavior"
+        }". ` +
+          `Keys must be declared stably. Using initial keys: [${lockedKeys.join(
+            ", "
+          )}]`
       )
     }
   }
@@ -162,14 +198,19 @@ export function useClassified<Expose = any, P = any>(
     if (chain.length === 0) return
 
     // Choose kind/when: child takes precedence, else parent, else defaults
-    const chosenKind: EffectKind = (childEvt?.kind ?? parentEvt?.kind ?? "effect")
+    const chosenKind: EffectKind =
+      childEvt?.kind ?? parentEvt?.kind ?? "effect"
     const chosenWhen = (api: BehaviorAPI<Expose, P>, c: BehaviorContext) =>
-      (childEvt?.when?.(api, c) ?? parentEvt?.when?.(api, c) ?? true)
+      childEvt?.when?.(api, c) ?? parentEvt?.when?.(api, c) ?? true
 
     // Aggregate deps in a deterministic way (parent first if runSuperBefore, else child first, etc.)
     const deps = ((): React.DependencyList => {
       const lists: React.DependencyList[] = chain.map((e) => {
-        try { return e.deps(apiRef.current, ctx) } catch { return [] }
+        try {
+          return e.deps(apiRef.current, ctx)
+        } catch {
+          return []
+        }
       })
       return ([] as any[]).concat(...lists)
     })()
@@ -183,7 +224,11 @@ export function useClassified<Expose = any, P = any>(
       }
       return () => {
         for (let i = cleanups.length - 1; i >= 0; i--) {
-          try { cleanups[i]() } catch {}
+          try {
+            cleanups[i]()
+          } catch {
+            // ignore cleanup errors
+          }
         }
       }
     }
@@ -191,11 +236,26 @@ export function useClassified<Expose = any, P = any>(
     // Gate with 'when' evaluated per render
     const whenNow = !!chosenWhen(apiRef.current, ctx)
 
+    // Build a dependencySnapshot that preserves old dep semantics
+    // (flatten deps so React compares element-wise, like a normal DependencyList)
+    const dependencySnapshot: Record<string, any> = {}
+    deps.forEach((value, index) => {
+      dependencySnapshot[String(index)] = value
+    })
+
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    useNamedEffect(`${spec.name ?? "Behavior"}.${key}`, effectBody, deps, {
-      kind: chosenKind,
-      when: whenNow,
-      // debug: true,
+    useNamedEffect({
+      name: `${spec.name ?? "Behavior"}.${key}`,
+      handler(_prev, _current) {
+        // we don't currently need prev/current for events; keep semantics identical
+        return effectBody()
+      },
+      dependencySnapshot,
+      options: {
+        kind: chosenKind,
+        when: whenNow,
+        // debug: true,
+      },
     })
   })
 
@@ -205,23 +265,22 @@ export function useClassified<Expose = any, P = any>(
     ? { ...apiRef.current }
     : { ...(apiRef.current as any), base: base?.api }
 
-    // Inherit platform config (base → explicit) so children see it too
+  // Inherit platform config (base → explicit) so children see it too
   const inheritedPlatform: PlatformStrapperSpecs = {
     ...(base?.__platformStrapper ?? {}),
     ...(platformStrapper ?? {}),
   }
 
   // React strapper: decide memoization once per instance
-  const memoizeView =
-    inheritedPlatform.react?.memoizeView ?? false
+  const memoizeView = inheritedPlatform.react?.memoizeView ?? false
 
-    let View: React.FC<PropsWithChildren<P>> = (p) => {
-      const v = apiRef.current.view
-      return v ? (v(apiRef.current, ctx, p) as any) : null
-    }
-    if (memoizeView) {
-      View = React.memo(View)
-    }
+  let View: React.FC<PropsWithChildren<P>> = (p) => {
+    const v = apiRef.current.view
+    return v ? (v(apiRef.current, ctx, p) as any) : null
+  }
+  if (memoizeView) {
+    View = React.memo(View)
+  }
 
   const instance: BehaviorInstance<Expose, P> = {
     api: apiPublic,
