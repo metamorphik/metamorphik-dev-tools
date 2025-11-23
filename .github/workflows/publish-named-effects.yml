@@ -26,6 +26,7 @@ jobs:
           cache: "npm"
 
       - name: Install deps
+        working-directory: packages/react-named-effeccts
         run: npm install
 
       - name: Verify tag version matches package.json
