@@ -1,16 +1,16 @@
 {
-  "name": "@metamorphik/react-named-effecs",
+  "name": "@metamorphik/react-named-effects",
   "version": "0.0.5",
   "description": "React effects with names, stable identities, debug-logging, and built-in prev/current value comparison.",
   "license": "MIT",
   "author": "Metamorphik Technologies",
   "repository": {
     "type": "git",
-    "url": "https://github.com/metamorphik/react-named-effecs.git"
+    "url": "https://github.com/metamorphik/metamorphik-dev-tools/tree/main/packages/react-named-effects"
   },
-  "homepage": "https://github.com/metamorphik/react-named-effecs",
+  "homepage": "https://github.com/metamorphik/metamorphik-dev-tools/tree/main/packages/react-named-effects",
   "bugs": {
-    "url": "https://github.com/metamorphik/react-named-effecs/issues"
+    "url": "https://github.com/metamorphik/metamorphik-dev-tools/issues"
   },
   "sideEffects": false,
   "type": "module",
